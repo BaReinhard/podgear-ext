@@ -46,7 +46,8 @@ export default class App extends React.Component{
     };
 
     handleSubmit(){
-        let data = { accountName: this.state.value, characterName:characterResponse.Name}
+        let accountName = this.state.value;
+        let data = { accountName: accountName, characterName:characterResponse.Name}
         try{
         this.twitch.configuration.set('broadcaster','0.1', JSON.stringify(data))
         }catch(err){
@@ -56,10 +57,11 @@ export default class App extends React.Component{
         this.twitch.rig.log(JSON.stringify(data))
          
     // axios
-    //     .post(`${process.env.REACT_APP_API_URL}account/${this.state.value}` )
+    //     .post(`${process.env.REACT_APP_API_URL}account/${accountName}` )
     //     .then(response => {
     //     this.setState({
-    //         accountName:response.data
+    //         accountName,
+    //         characterName: response.data
     //     });
     //     })
     //     .catch(err => {
