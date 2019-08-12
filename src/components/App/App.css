@@ -14,12 +14,12 @@
     Extension config view
 */
 
-/* @font-face {
+@font-face {
     font-family: "AvQest";
-    src: url("../../fonts/Avqest.ttf") format("truetype");
+    src: url("../../fonts/AvQest.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
-} */
+}
 
 .config {
     position: absolute;
@@ -54,12 +54,12 @@
 /* General
  */
 
- /* @font-face {
+ @font-face {
     font-family: "AvQest";
-    src: url("fonts/Avqest.ttf") format("truetype");
+    src: url("../../fonts/AvQest.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
-} */
+}
 
 body {
     font-family: "AvQest";
