@@ -4,6 +4,9 @@ const webpack = require("webpack")
 
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+node: {
+  fs: 'empty'
+}
 
 // defines where the bundle file will live
 const bundlePath = path.resolve(__dirname, "dist/")
@@ -39,9 +42,25 @@ module.exports = (_env,argv)=> {
       path:"./src/Mobile.js",
       outputHtml:"mobile.html",
       build:true
-    }
+    },
+    module: {
+      loaders: [{
+        test: /\.(png|svg|jpg|gif|jpe?g)$/,
+        use: [
+          {
+            options: {
+              name: "[name].[ext]",
+              outputPath: "img/"
+            },
+            loader: "file-loader"
+          }
+        ]
+      }, {
+          test: /\.(html)$/,
+          loader: 'file?name=[path][name].[ext]'
+      }]
   }
-
+  }
   let entry = {}
 
   // edit webpack plugins here!
@@ -70,6 +89,9 @@ module.exports = (_env,argv)=> {
     optimization: {
       minimize: false, // neccessary to pass Twitch's review process
     },
+    node: {
+      fs: 'empty'
+    },
     module: {
       rules: [
         {
@@ -94,7 +116,7 @@ module.exports = (_env,argv)=> {
       }
       ]
     },
-    resolve: { extensions: ['*', '.js', '.jsx'] },
+    resolve: { extensions: ['*', '.js', '.jsx',] },
     output: {
       filename: "[name].bundle.js",
       path:bundlePath

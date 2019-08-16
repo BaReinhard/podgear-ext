@@ -2,6 +2,7 @@ import React from 'react'
 import Authentication from '../../util/Authentication/Authentication'
 import axios from 'axios'
 import { characterResponse, accountName } from '../mocks/paininthenec.js';
+import { getImagePath } from '../../util/FileUtils'
 
 import './App.css'
 
@@ -22,6 +23,7 @@ export default class App extends React.Component{
             characterData:null,
             characterName: '',
             errorMessage:'',
+            item:''
         }
     }
 
@@ -48,11 +50,8 @@ export default class App extends React.Component{
     handleSubmit(){
         let accountName = this.state.value;
         let data = { accountName: accountName, characterName:characterResponse.Name}
-        try{
+
         this.twitch.configuration.set('broadcaster','0.1', JSON.stringify(data))
-        }catch(err){
-            this.twitch.rig.log(err)
-        }
         this.twitch.send("broadcast","application/json",data)
         this.twitch.rig.log(JSON.stringify(data))
          
@@ -72,9 +71,15 @@ export default class App extends React.Component{
     //     });
     //     });
     };
+    getImage(item){
+        getImagePath(item)
+        .then(response=>{
+            this.setState({item:response})
+        })
+    }
     componentDidMount(){
         if(this.twitch){
-            
+            // this.getImage("Sigon's Gage");
             this.twitch.onAuthorized((auth)=>{
                 this.Authentication.setToken(auth.token, auth.userId)
                 if(!this.state.finishedLoading){
@@ -127,6 +132,9 @@ export default class App extends React.Component{
     }
     
     render(){
+        
+        let Image = ()=><img style={{height:'300px',width:'300px'}} src={`https://pathofdiablo.com/p/armory/img/items/${"sigon's_gage"}.gif`}/>
+
         if(this.state.finishedLoading && this.state.isVisible ){
             return (
                 <div className="pod-live-conf">
@@ -147,9 +155,10 @@ export default class App extends React.Component{
                 <hr />
                 {this.state.moderator?<input onChange={this.handleChange.bind(this)} value={this.state.value} id="podAccname" className="pod-live-conf-input" type="text" placeholder="Enter your pod account name" />:""}
                 {this.state.moderator? <button id="submitChar" onClick={this.handleSubmit.bind(this)} className="pod-live-conf-button">Submit</button> : ''}
+                <Image/>
             </div>
         </div>
-    </div>)
+    </div>) 
                 
             
         }else{
